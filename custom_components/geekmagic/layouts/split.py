@@ -292,7 +292,7 @@ class ThreeRowLayout2To1(Layout):
                     rect=(
                         self.padding,
                         y,
-                        split_x - self.padding,
+                        split_x,
                         y + row_height,
                     ),
                 )
@@ -383,7 +383,7 @@ class ThreeRowLayout1To2(Layout):
                 Slot(
                     index= 3 + i,
                     rect=(
-                        split_x  + self.gap,
+                        split_x + self.gap,
                         y,
                         self.width - self.padding,
                         y + row_height,
