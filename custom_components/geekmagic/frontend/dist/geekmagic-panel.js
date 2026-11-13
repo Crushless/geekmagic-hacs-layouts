@@ -45,35 +45,37 @@ const fe = (s) => new he(typeof s == "string" ? s : s + "", void 0, J), _e = (s,
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: ye, defineProperty: $e, getOwnPropertyDescriptor: be, getOwnPropertyNames: xe, getOwnPropertySymbols: Ae, getPrototypeOf: Ve } = Object, y = globalThis, te = y.trustedTypes, Ee = te ? te.emptyScript : "", F = y.reactiveElementPolyfillSupport, S = (s, e) => s, z = { toAttribute(s, e) {
-  switch (e) {
-    case Boolean:
-      s = s ? Ee : null;
-      break;
-    case Object:
-    case Array:
-      s = s == null ? s : JSON.stringify(s);
+const { is: ye, defineProperty: $e, getOwnPropertyDescriptor: be, getOwnPropertyNames: xe, getOwnPropertySymbols: Ae, getPrototypeOf: Ve } = Object, y = globalThis, te = y.trustedTypes, Ee = te ? te.emptyScript : "", F = y.reactiveElementPolyfillSupport, S = (s, e) => s, z = {
+  toAttribute(s, e) {
+    switch (e) {
+      case Boolean:
+        s = s ? Ee : null;
+        break;
+      case Object:
+      case Array:
+        s = s == null ? s : JSON.stringify(s);
+    }
+    return s;
+  }, fromAttribute(s, e) {
+    let t = s;
+    switch (e) {
+      case Boolean:
+        t = s !== null;
+        break;
+      case Number:
+        t = s === null ? null : Number(s);
+        break;
+      case Object:
+      case Array:
+        try {
+          t = JSON.parse(s);
+        } catch {
+          t = null;
+        }
+    }
+    return t;
   }
-  return s;
-}, fromAttribute(s, e) {
-  let t = s;
-  switch (e) {
-    case Boolean:
-      t = s !== null;
-      break;
-    case Number:
-      t = s === null ? null : Number(s);
-      break;
-    case Object:
-    case Array:
-      try {
-        t = JSON.parse(s);
-      } catch {
-        t = null;
-      }
-  }
-  return t;
-} }, Y = (s, e) => !ye(s, e), ie = { attribute: !0, type: String, converter: z, reflect: !1, useDefault: !1, hasChanged: Y };
+}, Y = (s, e) => !ye(s, e), ie = { attribute: !0, type: String, converter: z, reflect: !1, useDefault: !1, hasChanged: Y };
 Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), y.litPropertyMetadata ?? (y.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
 let V = class extends HTMLElement {
   static addInitializer(e) {
@@ -89,15 +91,19 @@ let V = class extends HTMLElement {
     }
   }
   static getPropertyDescriptor(e, t, i) {
-    const { get: r, set: a } = be(this.prototype, e) ?? { get() {
-      return this[t];
-    }, set(o) {
-      this[t] = o;
-    } };
-    return { get: r, set(o) {
-      const n = r == null ? void 0 : r.call(this);
-      a == null || a.call(this, o), this.requestUpdate(e, n, i);
-    }, configurable: !0, enumerable: !0 };
+    const { get: r, set: a } = be(this.prototype, e) ?? {
+      get() {
+        return this[t];
+      }, set(o) {
+        this[t] = o;
+      }
+    };
+    return {
+      get: r, set(o) {
+        const n = r == null ? void 0 : r.call(this);
+        a == null || a.call(this, o), this.requestUpdate(e, n, i);
+      }, configurable: !0, enumerable: !0
+    };
   }
   static getPropertyOptions(e) {
     return this.elementProperties.get(e) ?? ie;
@@ -297,7 +303,7 @@ const Ce = (s, e) => {
   for (let n = 0; n < t; n++) {
     const l = s[n];
     let h, v, d = -1, f = 0;
-    for (; f < l.length && (o.lastIndex = f, v = o.exec(l), v !== null); ) f = o.lastIndex, o === P ? v[1] === "!--" ? o = re : v[1] !== void 0 ? o = ae : v[2] !== void 0 ? (ge.test(v[2]) && (r = RegExp("</" + v[2], "g")), o = $) : v[3] !== void 0 && (o = $) : o === $ ? v[0] === ">" ? (o = r ?? P, d = -1) : v[1] === void 0 ? d = -2 : (d = o.lastIndex - v[2].length, h = v[1], o = v[3] === void 0 ? $ : v[3] === '"' ? ne : oe) : o === ne || o === oe ? o = $ : o === re || o === ae ? o = P : (o = $, r = void 0);
+    for (; f < l.length && (o.lastIndex = f, v = o.exec(l), v !== null);) f = o.lastIndex, o === P ? v[1] === "!--" ? o = re : v[1] !== void 0 ? o = ae : v[2] !== void 0 ? (ge.test(v[2]) && (r = RegExp("</" + v[2], "g")), o = $) : v[3] !== void 0 && (o = $) : o === $ ? v[0] === ">" ? (o = r ?? P, d = -1) : v[1] === void 0 ? d = -2 : (d = o.lastIndex - v[2].length, h = v[1], o = v[3] === void 0 ? $ : v[3] === '"' ? ne : oe) : o === ne || o === oe ? o = $ : o === re || o === ae ? o = P : (o = $, r = void 0);
     const _ = o === $ && s[n + 1].startsWith("/>") ? " " : "";
     a += o === P ? l + ke : d >= 0 ? (i.push(h), l.slice(0, d) + pe + l.slice(d) + w + _) : l + w + (d === -2 ? n : _);
   }
@@ -313,7 +319,7 @@ class H {
       const d = this.el.content.firstChild;
       d.replaceWith(...d.childNodes);
     }
-    for (; (r = b.nextNode()) !== null && l.length < n; ) {
+    for (; (r = b.nextNode()) !== null && l.length < n;) {
       if (r.nodeType === 1) {
         if (r.hasAttributes()) for (const d of r.getAttributeNames()) if (d.endsWith(pe)) {
           const f = v[o++], _ = r.getAttribute(d).split(w), U = /([.?@])?(.*)/.exec(f);
@@ -330,7 +336,7 @@ class H {
       } else if (r.nodeType === 8) if (r.data === ue) l.push({ type: 2, index: a });
       else {
         let d = -1;
-        for (; (d = r.data.indexOf(w, d + 1)) !== -1; ) l.push({ type: 7, index: a }), d += w.length - 1;
+        for (; (d = r.data.indexOf(w, d + 1)) !== -1;) l.push({ type: 7, index: a }), d += w.length - 1;
       }
       a++;
     }
@@ -361,7 +367,7 @@ class Oe {
     const { el: { content: t }, parts: i } = this._$AD, r = ((e == null ? void 0 : e.creationScope) ?? A).importNode(t, !0);
     b.currentNode = r;
     let a = b.nextNode(), o = 0, n = 0, l = i[0];
-    for (; l !== void 0; ) {
+    for (; l !== void 0;) {
       if (o === l.index) {
         let h;
         l.type === 2 ? h = new L(a, a.nextSibling, this, e) : l.type === 1 ? h = new l.ctor(a, l.name, l.strings, this, e) : l.type === 6 && (h = new Le(a, this, e)), this._$AV.push(h), l = i[++n];
@@ -428,7 +434,7 @@ class L {
   }
   _$AR(e = this._$AA.nextSibling, t) {
     var i;
-    for ((i = this._$AP) == null ? void 0 : i.call(this, !1, !0, t); e !== this._$AB; ) {
+    for ((i = this._$AP) == null ? void 0 : i.call(this, !1, !0, t); e !== this._$AB;) {
       const r = e.nextSibling;
       e.remove(), e = r;
     }
@@ -571,16 +577,18 @@ const Ne = { attribute: !0, type: String, converter: z, reflect: !1, hasChanged:
   let a = globalThis.litPropertyMetadata.get(r);
   if (a === void 0 && globalThis.litPropertyMetadata.set(r, a = /* @__PURE__ */ new Map()), i === "setter" && ((s = Object.create(s)).wrapped = !0), a.set(t.name, s), i === "accessor") {
     const { name: o } = t;
-    return { set(n) {
-      const l = e.get.call(this);
-      e.set.call(this, n), this.requestUpdate(o, l, s);
-    }, init(n) {
-      return n !== void 0 && this.C(o, void 0, s, n), n;
-    } };
+    return {
+      set(n) {
+        const l = e.get.call(this);
+        e.set.call(this, n), this.requestUpdate(o, l, s);
+      }, init(n) {
+        return n !== void 0 && this.C(o, void 0, s, n), n;
+      }
+    };
   }
   if (i === "setter") {
     const { name: o } = t;
-    return function(n) {
+    return function (n) {
       const l = this[o];
       e.call(this, n), this.requestUpdate(o, l, s);
     };
@@ -745,7 +753,7 @@ let u = class extends O {
     const s = new Set(this._views.map((i) => i.name)), e = "New View";
     if (!s.has(e)) return e;
     let t = 2;
-    for (; s.has(`${e} ${t}`); )
+    for (; s.has(`${e} ${t}`);)
       t += 1;
     return `${e} ${t}`;
   }
@@ -976,15 +984,15 @@ let u = class extends O {
                           .path=${"M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"}
                           title="Clone view"
                           @click=${(r) => {
-          r.stopPropagation(), this._cloneView(s);
-        }}
+            r.stopPropagation(), this._cloneView(s);
+          }}
                         ></ha-icon-button>
                         <ha-icon-button
                           .path=${"M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"}
                           title="Delete view"
                           @click=${(r) => {
-          r.stopPropagation(), this._deleteView(s);
-        }}
+            r.stopPropagation(), this._deleteView(s);
+          }}
                         ></ha-icon-button>
                       </div>
                     </div>
@@ -1035,8 +1043,8 @@ let u = class extends O {
               label="View name"
               .value=${this._newViewName}
               @input=${(e) => {
-      this._newViewName = e.target.value;
-    }}
+        this._newViewName = e.target.value;
+      }}
               @keydown=${(e) => this._handleCreateViewDialogKeydown(e)}
             ></ha-input>
             ${this._createViewError ? c`<div class="dialog-error">${this._createViewError}</div>` : p}
@@ -1133,19 +1141,19 @@ let u = class extends O {
             .value=${this._editingView.theme}
             .options=${me(this._config.themes)}
             @selected=${(t) => {
-      const i = D(
-        t.detail,
-        Object.keys(this._config.themes)
-      );
-      i && this._updateEditingView({ theme: i });
-    }}
+        const i = D(
+          t.detail,
+          Object.keys(this._config.themes)
+        );
+        i && this._updateEditingView({ theme: i });
+      }}
             @closed=${(t) => t.stopPropagation()}
           >
             ${Object.entries(this._config.themes).map(
-      ([t, i]) => c`
+        ([t, i]) => c`
                 <mwc-list-item value=${t}>${i}</mwc-list-item>
               `
-    )}
+      )}
           </ha-select>
         </div>
 
@@ -1153,9 +1161,9 @@ let u = class extends O {
         <div class="section-title">Widgets</div>
         <div class="slots-grid">
           ${Array.from(
-      { length: s },
-      (t, i) => this._renderSlotEditor(i, s)
-    )}
+        { length: s },
+        (t, i) => this._renderSlotEditor(i, s)
+      )}
         </div>
       </div>
     `;
@@ -1185,17 +1193,17 @@ let u = class extends O {
       )
     )}
               @selected=${(n) => {
-      const l = ["", ...Object.keys(this._config.widget_types)], h = D(n.detail, l) ?? "";
-      this._updateWidget(s, { type: h });
-    }}
+        const l = ["", ...Object.keys(this._config.widget_types)], h = D(n.detail, l) ?? "";
+        this._updateWidget(s, { type: h });
+      }}
               @closed=${(n) => n.stopPropagation()}
             >
               <mwc-list-item value="">-- Empty --</mwc-list-item>
               ${Object.entries(this._config.widget_types).map(
-      ([n, l]) => c`
+        ([n, l]) => c`
                   <mwc-list-item value=${n}>${l.name}</mwc-list-item>
                 `
-    )}
+      )}
             </ha-select>
           </div>
 
@@ -1204,13 +1212,13 @@ let u = class extends O {
                   <ha-selector
                     .hass=${this.hass}
                     .selector=${{
-      entity: r.entity_domains ? { domain: r.entity_domains } : {}
-    }}
+          entity: r.entity_domains ? { domain: r.entity_domains } : {}
+        }}
                     .value=${(t == null ? void 0 : t.entity_id) || ""}
                     .label=${"Entity"}
                     @value-changed=${(n) => this._updateWidget(s, {
-      entity_id: n.detail.value
-    })}
+          entity_id: n.detail.value
+        })}
                   ></ha-selector>
                 </div>
               ` : p}
@@ -1220,16 +1228,16 @@ let u = class extends O {
               label="Label (optional)"
               .value=${(t == null ? void 0 : t.label) || ""}
               @input=${(n) => this._updateWidget(s, {
-      label: n.target.value
-    })}
+          label: n.target.value
+        })}
             ></ha-input>
           </div>
 
           ${(o = r == null ? void 0 : r.options) != null && o.length ? c`
                 <div class="widget-options">
                   ${r.options.map(
-      (n) => this._renderOptionField(s, t, n)
-    )}
+          (n) => this._renderOptionField(s, t, n)
+        )}
                 </div>
               ` : p}
         </div>
@@ -1262,17 +1270,17 @@ let u = class extends O {
               .value=${i || t.default || ""}
               .options=${t.options || []}
               @selected=${(o) => {
-          const n = D(
-            o.detail,
-            t.options || []
-          );
-          n !== void 0 && this._updateWidgetOption(s, t.key, n);
-        }}
+            const n = D(
+              o.detail,
+              t.options || []
+            );
+            n !== void 0 && this._updateWidgetOption(s, t.key, n);
+          }}
               @closed=${(o) => o.stopPropagation()}
             >
               ${(a = t.options) == null ? void 0 : a.map(
-          (o) => c`<mwc-list-item value=${o}>${o}</mwc-list-item>`
-        )}
+            (o) => c`<mwc-list-item value=${o}>${o}</mwc-list-item>`
+          )}
             </ha-select>
           </div>
         `;
@@ -1286,13 +1294,13 @@ let u = class extends O {
               .min=${t.min !== void 0 ? String(t.min) : ""}
               .max=${t.max !== void 0 ? String(t.max) : ""}
               @input=${(o) => {
-          const n = o.target.value;
-          this._updateWidgetOption(
-            s,
-            t.key,
-            n ? parseFloat(n) : void 0
-          );
-        }}
+            const n = o.target.value;
+            this._updateWidgetOption(
+              s,
+              t.key,
+              n ? parseFloat(n) : void 0
+            );
+          }}
             ></ha-input>
           </div>
         `;
@@ -1358,11 +1366,11 @@ let u = class extends O {
                 .label=${"Hex (fallback)"}
                 placeholder="#FF5500 or 255,85,0"
                 @change=${(o) => {
-          const n = ce(
-            o.target.value
-          );
-          n && this._updateWidgetOption(s, t.key, n);
-        }}
+            const n = ce(
+              o.target.value
+            );
+            n && this._updateWidgetOption(s, t.key, n);
+          }}
               ></ha-input>
             </div>
           </div>
@@ -1393,19 +1401,19 @@ let u = class extends O {
               .label=${t.label}
               .value=${i || ""}
               .options=${[
-          { value: "", label: "-- Home Assistant default --" },
-          ...K.map((n) => ({ value: n, label: n }))
-        ]}
+            { value: "", label: "-- Home Assistant default --" },
+            ...K.map((n) => ({ value: n, label: n }))
+          ]}
               @selected=${(n) => {
-          const l = D(n.detail, o);
-          l !== void 0 && this._updateWidgetOption(s, t.key, l);
-        }}
+            const l = D(n.detail, o);
+            l !== void 0 && this._updateWidgetOption(s, t.key, l);
+          }}
               @closed=${(n) => n.stopPropagation()}
             >
               <mwc-list-item value="">-- Home Assistant default --</mwc-list-item>
               ${K.map(
-          (n) => c`<mwc-list-item value=${n}>${n}</mwc-list-item>`
-        )}
+            (n) => c`<mwc-list-item value=${n}>${n}</mwc-list-item>`
+          )}
             </ha-select>
           </div>
         `;
@@ -1450,28 +1458,28 @@ let u = class extends O {
                       label="Value"
                       .value=${String(r.value)}
                       @input=${(o) => {
-        const n = [...i];
-        n[a] = {
-          ...r,
-          value: parseFloat(o.target.value) || 0
-        }, this._updateWidgetOption(s, e, n);
-      }}
+          const n = [...i];
+          n[a] = {
+            ...r,
+            value: parseFloat(o.target.value) || 0
+          }, this._updateWidgetOption(s, e, n);
+        }}
                     ></ha-input>
                     <ha-selector
                       .hass=${this.hass}
                       .selector=${{ color_rgb: {} }}
                       .value=${r.color}
                       @value-changed=${(o) => {
-        const n = [...i];
-        n[a] = { ...r, color: o.detail.value }, this._updateWidgetOption(s, e, n);
-      }}
+          const n = [...i];
+          n[a] = { ...r, color: o.detail.value }, this._updateWidgetOption(s, e, n);
+        }}
                     ></ha-selector>
                     <ha-icon-button
                       .path=${"M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"}
                       @click=${() => {
-        const o = i.filter((n, l) => l !== a);
-        this._updateWidgetOption(s, e, o);
-      }}
+          const o = i.filter((n, l) => l !== a);
+          this._updateWidgetOption(s, e, o);
+        }}
                     ></ha-icon-button>
                   </div>
                   <div class="threshold-hex-row">
@@ -1485,14 +1493,14 @@ let u = class extends O {
                       label="Hex (fallback)"
                       placeholder="#FF5500"
                       @change=${(o) => {
-        const n = ce(
-          o.target.value
-        );
-        if (n) {
-          const l = [...i];
-          l[a] = { ...r, color: n }, this._updateWidgetOption(s, e, l);
-        }
-      }}
+          const n = ce(
+            o.target.value
+          );
+          if (n) {
+            const l = [...i];
+            l[a] = { ...r, color: n }, this._updateWidgetOption(s, e, l);
+          }
+        }}
                     ></ha-input>
                   </div>
                 </div>
@@ -1501,9 +1509,9 @@ let u = class extends O {
             <div
               class="add-item-button"
               @click=${() => {
-      const r = [...i, { value: 0, color: [255, 255, 0] }];
-      this._updateWidgetOption(s, e, r);
-    }}
+        const r = [...i, { value: 0, color: [255, 255, 0] }];
+        this._updateWidgetOption(s, e, r);
+      }}
             >
               <ha-icon icon="mdi:plus"></ha-icon>
               Add Threshold
@@ -1537,22 +1545,22 @@ let u = class extends O {
                       <ha-icon-button
                         .path=${a > 0 ? "M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" : ""}
                         @click=${(l) => {
-        l.stopPropagation(), a > 0 && this._moveArrayItem(s, e, i, a, -1);
-      }}
+          l.stopPropagation(), a > 0 && this._moveArrayItem(s, e, i, a, -1);
+        }}
                       ></ha-icon-button>
                       <ha-icon-button
                         .path=${a < i.length - 1 ? "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" : ""}
                         @click=${(l) => {
-        l.stopPropagation(), a < i.length - 1 && this._moveArrayItem(s, e, i, a, 1);
-      }}
+          l.stopPropagation(), a < i.length - 1 && this._moveArrayItem(s, e, i, a, 1);
+        }}
                       ></ha-icon-button>
                       <ha-icon-button
                         .path=${"M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"}
                         @click=${(l) => {
-        l.stopPropagation();
-        const h = i.filter((v, d) => d !== a);
-        this._updateWidgetOption(s, e, h);
-      }}
+          l.stopPropagation();
+          const h = i.filter((v, d) => d !== a);
+          this._updateWidgetOption(s, e, h);
+        }}
                       ></ha-icon-button>
                     </div>
                   </div>
@@ -1563,31 +1571,31 @@ let u = class extends O {
                       .value=${r.entity_id || ""}
                       .label=${"Entity"}
                       @value-changed=${(l) => this._updateArrayItem(s, e, i, a, {
-        entity_id: l.detail.value
-      })}
+          entity_id: l.detail.value
+        })}
                     ></ha-selector>
                     <ha-input
                       label="Label"
                       .value=${r.label || ""}
                       @input=${(l) => this._updateArrayItem(s, e, i, a, {
-        label: l.target.value
-      })}
+          label: l.target.value
+        })}
                     ></ha-input>
                     <ha-input
                       type="number"
                       label="Target"
                       .value=${r.target !== void 0 ? String(r.target) : "100"}
                       @input=${(l) => this._updateArrayItem(s, e, i, a, {
-        target: parseFloat(l.target.value) || 100
-      })}
+          target: parseFloat(l.target.value) || 100
+        })}
                     ></ha-input>
                     <ha-icon-picker
                       .hass=${this.hass}
                       label="Icon"
                       .value=${r.icon || ""}
                       @value-changed=${(l) => this._updateArrayItem(s, e, i, a, {
-        icon: l.detail.value
-      })}
+          icon: l.detail.value
+        })}
                     ></ha-icon-picker>
                     <ha-selector
                       .hass=${this.hass}
@@ -1595,8 +1603,8 @@ let u = class extends O {
                       .value=${r.color}
                       .label=${"Color"}
                       @value-changed=${(l) => this._updateArrayItem(s, e, i, a, {
-        color: l.detail.value
-      })}
+          color: l.detail.value
+        })}
                     ></ha-selector>
                   </div>
                 </div>
@@ -1605,9 +1613,9 @@ let u = class extends O {
             <div
               class="add-item-button"
               @click=${() => {
-      const r = [...i, { entity_id: "", target: 100 }];
-      this._updateWidgetOption(s, e, r), this._expandedItems.add(`${s}-progress-${r.length - 1}`), this.requestUpdate();
-    }}
+        const r = [...i, { entity_id: "", target: 100 }];
+        this._updateWidgetOption(s, e, r), this._expandedItems.add(`${s}-progress-${r.length - 1}`), this.requestUpdate();
+      }}
             >
               <ha-icon icon="mdi:plus"></ha-icon>
               Add Progress Item
@@ -1641,22 +1649,22 @@ let u = class extends O {
                       <ha-icon-button
                         .path=${a > 0 ? "M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" : ""}
                         @click=${(l) => {
-        l.stopPropagation(), a > 0 && this._moveArrayItem(s, e, i, a, -1);
-      }}
+          l.stopPropagation(), a > 0 && this._moveArrayItem(s, e, i, a, -1);
+        }}
                       ></ha-icon-button>
                       <ha-icon-button
                         .path=${a < i.length - 1 ? "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" : ""}
                         @click=${(l) => {
-        l.stopPropagation(), a < i.length - 1 && this._moveArrayItem(s, e, i, a, 1);
-      }}
+          l.stopPropagation(), a < i.length - 1 && this._moveArrayItem(s, e, i, a, 1);
+        }}
                       ></ha-icon-button>
                       <ha-icon-button
                         .path=${"M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"}
                         @click=${(l) => {
-        l.stopPropagation();
-        const h = i.filter((v, d) => d !== a);
-        this._updateWidgetOption(s, e, h);
-      }}
+          l.stopPropagation();
+          const h = i.filter((v, d) => d !== a);
+          this._updateWidgetOption(s, e, h);
+        }}
                       ></ha-icon-button>
                     </div>
                   </div>
@@ -1667,23 +1675,23 @@ let u = class extends O {
                       .value=${r.entity_id || ""}
                       .label=${"Entity"}
                       @value-changed=${(l) => this._updateArrayItem(s, e, i, a, {
-        entity_id: l.detail.value
-      })}
+          entity_id: l.detail.value
+        })}
                     ></ha-selector>
                     <ha-input
                       label="Label"
                       .value=${r.label || ""}
                       @input=${(l) => this._updateArrayItem(s, e, i, a, {
-        label: l.target.value
-      })}
+          label: l.target.value
+        })}
                     ></ha-input>
                     <ha-icon-picker
                       .hass=${this.hass}
                       label="Icon"
                       .value=${r.icon || ""}
                       @value-changed=${(l) => this._updateArrayItem(s, e, i, a, {
-        icon: l.detail.value
-      })}
+          icon: l.detail.value
+        })}
                     ></ha-icon-picker>
                   </div>
                 </div>
@@ -1692,9 +1700,9 @@ let u = class extends O {
             <div
               class="add-item-button"
               @click=${() => {
-      const r = [...i, { entity_id: "" }];
-      this._updateWidgetOption(s, e, r), this._expandedItems.add(`${s}-status-${r.length - 1}`), this.requestUpdate();
-    }}
+        const r = [...i, { entity_id: "" }];
+        this._updateWidgetOption(s, e, r), this._expandedItems.add(`${s}-status-${r.length - 1}`), this.requestUpdate();
+      }}
             >
               <ha-icon icon="mdi:plus"></ha-icon>
               Add Status Entity
@@ -1787,6 +1795,7 @@ let u = class extends O {
       split_h_2_1: { cls: "s-h-21", cells: 2 },
       three_column: { cls: "t-col", cells: 3 },
       three_row: { cls: "t-row", cells: 3 },
+      three_row_2_1: { cls: "t-row-21", cells: 6 },
       hero: { cls: "hero", cells: 4 },
       hero_simple: { cls: "hero-simple", cells: 2 },
       sidebar_left: { cls: "sb-l", cells: 4 },
@@ -2258,6 +2267,7 @@ u.styles = _e`
     .layout-icon.s-h-21 { grid-template: 1fr / 2fr 1fr; }
     .layout-icon.t-col { grid-template: 1fr / 1fr 1fr 1fr; }
     .layout-icon.t-row { grid-template: 1fr 1fr 1fr / 1fr; }
+    .layout-icon.t-row-21 { grid-template: 1fr 1fr 1fr / 2fr 1fr; }
     .layout-icon.hero { grid-template: 2fr 1fr / 1fr 1fr 1fr; }
     .layout-icon.hero > div:first-child { grid-column: 1 / -1; }
     .layout-icon.hero-simple { grid-template: 2fr 1fr / 1fr; }

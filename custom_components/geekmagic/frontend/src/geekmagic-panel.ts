@@ -547,7 +547,7 @@ export class GeekMagicPanel extends LitElement {
     .layout-icon.s-h-21 { grid-template: 1fr / 2fr 1fr; }
     .layout-icon.t-col { grid-template: 1fr / 1fr 1fr 1fr; }
     .layout-icon.t-row { grid-template: 1fr 1fr 1fr / 1fr; }
-    .layout-icon.t-row-2-1 { grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr; }
+    .layout-icon.t-row-21 { grid-template: 1fr 1fr 1fr / 2fr 1fr; }
     .layout-icon.hero { grid-template: 2fr 1fr / 1fr 1fr 1fr; }
     .layout-icon.hero > div:first-child { grid-column: 1 / -1; }
     .layout-icon.hero-simple { grid-template: 2fr 1fr / 1fr; }
