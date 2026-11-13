@@ -2197,7 +2197,7 @@ export class GeekMagicPanel extends LitElement {
         cols = 3;
         rows = 1;
         break;
-      case "three_row_2_1":
+      case "three_row_2_to_1":
         cols = 2;
         rows = 3;
         break;
@@ -2258,6 +2258,7 @@ export class GeekMagicPanel extends LitElement {
       split_h_2_1: { cls: "s-h-21", cells: 2 },
       three_column: { cls: "t-col", cells: 3 },
       three_row: { cls: "t-row", cells: 3 },
+      three_row_2_to_1: { cls: "t-row-21", cells: 6 },
       three_row_2_1: { cls: "t-row-21", cells: 6 },
       hero: { cls: "hero", cells: 4 },
       hero_simple: { cls: "hero-simple", cells: 2 },
