@@ -367,7 +367,7 @@ class ThreeRowLayout1To2(Layout):
                     rect=(
                         self.padding,
                         y,
-                        split_x - self.padding,
+                        split_x,
                         y + row_height,
                     ),
                 )
