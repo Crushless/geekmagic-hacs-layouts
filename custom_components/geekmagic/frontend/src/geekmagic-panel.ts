@@ -2197,6 +2197,10 @@ export class GeekMagicPanel extends LitElement {
         cols = 3;
         rows = 1;
         break;
+      case "three_row_2_1":
+        cols = 2;
+        rows = 3;
+        break;
       default:
         cols = 2;
         rows = Math.ceil(slotCount / 2);
