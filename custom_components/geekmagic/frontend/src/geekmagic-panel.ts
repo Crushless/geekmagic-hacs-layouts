@@ -548,6 +548,7 @@ export class GeekMagicPanel extends LitElement {
     .layout-icon.t-col { grid-template: 1fr / 1fr 1fr 1fr; }
     .layout-icon.t-row { grid-template: 1fr 1fr 1fr / 1fr; }
     .layout-icon.t-row-21 { grid-template: 1fr 1fr 1fr / 2fr 1fr; }
+    .layout-icon.t-row-12 { grid-template: 1fr 1fr 1fr / 1fr 2fr; }
     .layout-icon.hero { grid-template: 2fr 1fr / 1fr 1fr 1fr; }
     .layout-icon.hero > div:first-child { grid-column: 1 / -1; }
     .layout-icon.hero-simple { grid-template: 2fr 1fr / 1fr; }
@@ -2201,6 +2202,10 @@ export class GeekMagicPanel extends LitElement {
         cols = 2;
         rows = 3;
         break;
+      case "three_row_1_to_2":
+        cols = 2;
+        rows = 3;
+        break;
       default:
         cols = 2;
         rows = Math.ceil(slotCount / 2);
@@ -2259,7 +2264,7 @@ export class GeekMagicPanel extends LitElement {
       three_column: { cls: "t-col", cells: 3 },
       three_row: { cls: "t-row", cells: 3 },
       three_row_2_to_1: { cls: "t-row-21", cells: 6 },
-      three_row_2_1: { cls: "t-row-21", cells: 6 },
+      three_row_1_to_2: { cls: "t-row-12", cells: 6 },
       hero: { cls: "hero", cells: 4 },
       hero_simple: { cls: "hero-simple", cells: 2 },
       sidebar_left: { cls: "sb-l", cells: 4 },

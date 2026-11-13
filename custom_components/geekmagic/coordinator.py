@@ -57,6 +57,7 @@ from .const import (
     LAYOUT_THREE_COLUMN,
     LAYOUT_THREE_ROW,
     LAYOUT_THREE_ROW_2_TO_1,
+    LAYOUT_THREE_ROW_1_TO_2,
     MAX_BACKOFF_MULTIPLIER,
     MAX_IMAGE_SIZE,
     THEME_WATCHOS,
@@ -77,6 +78,7 @@ from .layouts.split import (
     ThreeColumnLayout,
     ThreeRowLayout,
     ThreeRowLayout2To1,
+    ThreeRowLayout1To2,
 )
 from .models import brightness_from_percent, brightness_to_percent
 from .renderer import Renderer
@@ -127,6 +129,7 @@ LAYOUT_CLASSES = {
     LAYOUT_THREE_COLUMN: ThreeColumnLayout,
     LAYOUT_THREE_ROW: ThreeRowLayout,
     LAYOUT_THREE_ROW_2_TO_1: ThreeRowLayout2To1,
+    LAYOUT_THREE_ROW_1_TO_2: ThreeRowLayout1To2,
     LAYOUT_SIDEBAR_LEFT: SidebarLeft,
     LAYOUT_SIDEBAR_RIGHT: SidebarRight,
     LAYOUT_HERO_TL: HeroCornerTL,
