@@ -243,6 +243,75 @@ class ThreeRowLayout(Layout):
             y += row_height + self.gap
 
 
+class ThreeRowLayout2To1(Layout):
+    """Three row layout - wide left (2/3), narrow right (1/3).
+
+    +------------+--------+
+    |   TOP L    | TOP R  |
+    |  slot 0    | slot 1 |
+    +------------+--------+
+    |  MIDDLE L  | MIDD R |
+    |  slot 2    | slot 3 |
+    +------------+--------+
+    |  BOTTOM L  | BOTT R |
+    |  slot 4    | slot 5 |
+    +------------+--------+
+    """
+
+    def __init__(
+        self,
+        ratios: tuple[float, float, float] = (0.33, 0.34, 0.33),
+        padding: int | None = None,
+        gap: int | None = None,
+    ) -> None:
+        """Initialize three-row layout.
+
+        Args:
+            ratios: Height ratios for each row (should sum to ~1.0)
+            padding: Padding around edges
+            gap: Gap between rows
+        """
+        self.ratios = ratios
+        super().__init__(padding=padding, gap=gap)
+
+    def _calculate_slots(self) -> None:
+        """Calculate row rectangles."""
+        self.slots = []
+
+        available_height = self.height - (2 * self.padding) - (2 * self.gap)
+        total_ratio = sum(self.ratios)
+        split_x = (self.width * 2) // 3
+
+        y = self.padding
+        for i, ratio in enumerate(self.ratios):
+            row_height = int(available_height * (ratio / total_ratio))
+
+            self.slots.append(
+                Slot(
+                    index=i * 2,
+                    rect=(
+                        self.padding,
+                        y,
+                        split_x - self.padding,
+                        y + row_height,
+                    ),
+                )
+            )
+            self.slots.append(
+                Slot(
+                    index=i * 2 + 1,
+                    rect=(
+                        split_x + self.gap,
+                        y,
+                        self.width - self.padding,
+                        y + row_height,
+                    ),
+                )
+            )
+
+            y += row_height + self.gap
+
+
 class SplitHorizontal1To2(SplitHorizontal):
     """Horizontal split - narrow left (1/3), wide right (2/3).
 

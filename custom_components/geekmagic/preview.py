@@ -26,6 +26,7 @@ from .const import (
     LAYOUT_SPLIT_V,
     LAYOUT_THREE_COLUMN,
     LAYOUT_THREE_ROW,
+    LAYOUT_THREE_ROW_2_TO_1,
 )
 from .layouts.corner_hero import HeroCornerBL, HeroCornerBR, HeroCornerTL, HeroCornerTR
 from .layouts.grid import Grid2x2, Grid2x3, Grid3x2, Grid3x3
@@ -38,6 +39,7 @@ from .layouts.split import (
     SplitVertical,
     ThreeColumnLayout,
     ThreeRowLayout,
+    ThreeRowLayout2To1,
 )
 from .renderer import Renderer
 from .widgets import WIDGET_CLASSES
@@ -59,6 +61,7 @@ LAYOUT_CLASSES = {
     LAYOUT_SPLIT_V: SplitVertical,
     LAYOUT_THREE_COLUMN: ThreeColumnLayout,
     LAYOUT_THREE_ROW: ThreeRowLayout,
+    LAYOUT_THREE_ROW_2_TO_1: ThreeRowLayout2To1,
     LAYOUT_SIDEBAR_LEFT: SidebarLeft,
     LAYOUT_SIDEBAR_RIGHT: SidebarRight,
     LAYOUT_HERO_TL: HeroCornerTL,

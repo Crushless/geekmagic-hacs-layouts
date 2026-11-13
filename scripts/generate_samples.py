@@ -41,6 +41,7 @@ from custom_components.geekmagic.layouts.split import (
     SplitVertical,
     ThreeColumnLayout,
     ThreeRowLayout,
+    ThreeRowLayout2To1,
 )
 from custom_components.geekmagic.renderer import Renderer
 from custom_components.geekmagic.widgets import (
@@ -2537,6 +2538,7 @@ def generate_layout_samples(renderer: Renderer, output_dir: Path) -> None:
         ("split_h_2_1", SplitHorizontal2To1()),
         ("three_column", ThreeColumnLayout()),
         ("three_row", ThreeRowLayout()),
+        ("three_row_2_1", ThreeRowLayout2To1()),
         ("hero", HeroLayout()),
         ("hero_simple", HeroSimpleLayout()),
         ("sidebar_left", SidebarLeft()),

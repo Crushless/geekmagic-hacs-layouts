@@ -15,6 +15,7 @@ from .split import (
     SplitVertical,
     ThreeColumnLayout,
     ThreeRowLayout,
+    ThreeRowLayout2To1,
 )
 
 __all__ = [
@@ -36,4 +37,5 @@ __all__ = [
     "SplitVertical",
     "ThreeColumnLayout",
     "ThreeRowLayout",
+    "ThreeRowLayout2To1",
 ]
