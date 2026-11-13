@@ -288,7 +288,7 @@ class ThreeRowLayout2To1(Layout):
 
             self.slots.append(
                 Slot(
-                    index=i * 2,
+                    index=i,
                     rect=(
                         self.padding,
                         y,
@@ -297,9 +297,16 @@ class ThreeRowLayout2To1(Layout):
                     ),
                 )
             )
+
+            y += row_height + self.gap
+
+        y = self.padding
+        for i, ratio in enumerate(self.ratios):
+            row_height = int(available_height * (ratio / total_ratio))
+
             self.slots.append(
                 Slot(
-                    index=i * 2 + 1,
+                    index=3 + i,
                     rect=(
                         split_x + self.gap,
                         y,
@@ -356,20 +363,27 @@ class ThreeRowLayout1To2(Layout):
 
             self.slots.append(
                 Slot(
-                    index=i * 2,
+                    index=i,
                     rect=(
                         self.padding,
                         y,
-                        (split_x * 2) - self.padding,
+                        split_x - self.padding,
                         y + row_height,
                     ),
                 )
             )
+
+            y += row_height + self.gap
+
+        y = self.padding
+        for i, ratio in enumerate(self.ratios):
+            row_height = int(available_height * (ratio / total_ratio))
+
             self.slots.append(
                 Slot(
-                    index=i * 2 + 1,
+                    index= 3 + i,
                     rect=(
-                        (split_x * 2) + self.gap,
+                        split_x  + self.gap,
                         y,
                         self.width - self.padding,
                         y + row_height,
